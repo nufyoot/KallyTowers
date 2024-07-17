@@ -1,3 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Net;
+using System.Net.Sockets;
 
-Console.WriteLine("Hello, World!");
+var tcpListener = new TcpListener(IPAddress.Any, 9090);
+tcpListener.Start();
+
+while (true)
+{
+    var client = tcpListener.AcceptTcpClient();
+    var stream = client.GetStream();
+
+    ReadOnlySpan<byte> data;
+
+    data = "This is a test"u8;
+    stream.Write(data);
+    Console.WriteLine("Connected and sent init data");
+}
